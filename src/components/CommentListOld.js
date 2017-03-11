@@ -1,4 +1,4 @@
-import React, {createClass, PropTypes} from 'react'
+asdfimport React, {createClass, PropTypes} from 'react'
 import Comment from './Comment'
 import toggleOpen from '../mixins/toggleOpen'
 
