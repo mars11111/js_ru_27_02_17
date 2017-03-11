@@ -1,63 +1,36 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Comment from './Comment'
-import toggleOpen from '../decorators/toggleOpen'
+
 
 class CommentList extends Component {
-    static defaultProps = {
-        comments: []
-    }
 
-    componentWillMount() {
-        console.log('---', 'mounting comment list')
-    }
-
-    componentDidMount() {
-        console.log('---', 'comment list mounted')
-    }
-
-    componentDidUpdate() {
-        this.size = this.container.getBoundingClientRect()
+    constructor() {
+        super()
+        this.state = {
+            isOpen: false
+        }
     }
 
     render() {
-        const {isOpen, toggleOpen} = this.props
-        console.log('---', this.size)
-        return (
-            <div ref={this.getContainerRef}>
-                <a href="#" onClick={toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
-                {this.getBody()}
-            </div>
-        )
-    }
+        const comments = this.props.comments
+        const isOpen = this.state.isOpen
 
-    getContainerRef = (ref) => {
-        this.container = ref
-        if (ref) {
-            this.size = ref.getBoundingClientRect()
-        }
-    }
+        const commentComponents = isOpen ? comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>) : null
+        const commentsContainer = isOpen ? <ul>{commentComponents}</ul> : null
+        const button = <button onClick={this.handleClick}>{isOpen ? 'hide' : 'show'}</button>
 
-    getBody() {
-        const {comments, isOpen} = this.props
-        if (!isOpen) return null
-
-        if (!comments.length) {
-            return <div>
-                <h3>
-                    No comments yet
-                </h3>
-            </div>
-        }
-
-        const commentItems = comments.map(comment => <li key={comment.id}><Comment comment={comment} /></li>)
         return (
             <div>
-                <ul>
-                    {commentItems}
-                </ul>
+                {button}
+                {commentsContainer}
             </div>
         )
     }
-}
 
-export default toggleOpen(CommentList)
+    handleClick = ev => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+}
+export default CommentList

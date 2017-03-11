@@ -1,12 +1,13 @@
-import React  from 'react'
+import React from 'react'
 
-function Comment(props) {
-    const { text, user } = props.comment
+export default (props) => {
+
+    const {comment} = props
+
     return (
         <div>
-            <p>{text} <b>by {user}</b></p>
+            <h5>{comment.user}</h5>
+            <section>{comment.text}</section>
         </div>
     )
 }
-
-export default Comment
