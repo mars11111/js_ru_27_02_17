@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
+import SaveComment from './SaveComment'
 import toggleOpen from '../decorators/toggleOpen'
 
 class CommentList extends Component {
@@ -40,6 +41,7 @@ class CommentList extends Component {
 
         if (!comments.length) {
             return <div>
+                <SaveComment/>
                 <h3>
                     No comments yet
                 </h3>
@@ -49,6 +51,7 @@ class CommentList extends Component {
         const commentItems = comments.map(comment => <li key={comment.id}><Comment comment={comment} /></li>)
         return (
             <div>
+                <SaveComment/>
                 <ul>
                     {commentItems}
                 </ul>
