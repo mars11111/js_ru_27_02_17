@@ -21,6 +21,7 @@ class SaveComment extends Component {
 
     handleChange = (property, maxLength) => ev => {
         if (ev.target.value.length > maxLength) {
+            //не мутируй DOM - лучше сделай что-то вроде setState({error})
             ev.target.style.color = 'red'
             return
         }
