@@ -11,7 +11,7 @@ class SelectFilter extends Component {
     };
 
     handleChange = selected => {
-        this.props.setIds(selected)
+        this.props.setIds(selected.map(s => s.value))
     }
 
     render() {

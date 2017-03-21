@@ -7,8 +7,8 @@ export default (state = [], action) => {
         case SET_IDS:
             return payload.ids
 
-        case DELETE_ARTICLE:
-            return state.filter(selectItem => selectItem.value !== payload.id)
+        //0case DELETE_ARTICLE:
+        //    return state.filter(selectItem => selectItem.value !== payload.id)
     }
 
     return state

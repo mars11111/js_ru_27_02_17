@@ -6,16 +6,10 @@ import accrdion from '../../decorators/accordion'
 import './style.css'
 
 class ArticleList extends Component {
-
-    filterFunc = selected => article => {
-        return selected.some(s => article.id === s.value)
-    }
-
     render() {
-        const {articles, selected, toggleOpenItem, isItemOpened} = this.props
+        const {articles, toggleOpenItem, isItemOpened} = this.props
 
         const articleComponents = articles
-            .filter(this.filterFunc(selected))
             .map(article => <li key={article.id}>
             <Article article={article}
                      isOpen={isItemOpened(article.id)}
@@ -39,8 +33,7 @@ class ArticleList extends Component {
 
 const mapStateToProps = state => {
     return {
-        selected: state.ids,
-        articles: state.articles
+        articles: state.articles.filter(article => state.ids.some(s => article.id === s))
     }
 }
 
