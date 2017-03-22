@@ -5,7 +5,7 @@ export default store => next => action => {
 
     switch (type) {
         case ADD_COMMENT:
-            payload.comment.id = 3582
+            payload.comment.id = new Date().getTime()
     }
 
     next(action)
