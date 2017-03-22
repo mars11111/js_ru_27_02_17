@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import {connect} from 'react-redux'
+import {addComment} from '../AC'
 
 class NewCommentForm extends Component {
     static propTypes = {
@@ -20,6 +22,10 @@ class NewCommentForm extends Component {
 
     handleSubmit = ev => {
         ev.preventDefault()
+
+        const { addComment, articleId } = this.props
+        addComment(articleId, this.state) // ??? Это нормально, что у компонента свой стейт, не пересекающийся со store?
+
         this.setState({
             user: '',
             text: ''
@@ -29,8 +35,8 @@ class NewCommentForm extends Component {
     render() {
         return (
             <form onSubmit = {this.handleSubmit}>
-                comment: <input type="text" value={this.state.text} onChange = {this.handleChange('text')}/>
-                user: <input type="text" value={this.state.user} onChange = {this.handleChange('user')}/>
+                comment: <input type="text" value={this.state.text} id = "text" onChange = {this.handleChange('text')}/>
+                user: <input type="text" value={this.state.user} id = "user" onChange = {this.handleChange('user')}/>
                 <input type = "submit"/>
             </form>
         )
@@ -42,4 +48,5 @@ const validators = {
     user: (text) => text.length < 10
 }
 
-export default NewCommentForm
+// посчитал, что содержимое store здесь не нужно, передал null вместо mapStateToProps
+export default connect(null, { addComment })(NewCommentForm)

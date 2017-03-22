@@ -44,7 +44,7 @@ class CommentList extends Component {
                 <h3>
                     No comments yet
                 </h3>
-                <NewCommentForm />
+                <NewCommentForm articleId={this.props.articleId} />
             </div>
         }
 
@@ -54,7 +54,7 @@ class CommentList extends Component {
                 <ul>
                     {commentItems}
                 </ul>
-                <NewCommentForm />
+                <NewCommentForm articleId={this.props.articleId} />
             </div>
         )
     }
