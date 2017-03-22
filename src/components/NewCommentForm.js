@@ -8,27 +8,34 @@ class NewCommentForm extends Component {
 
     state = {
         text: '',
-        user: ''
+        user: '',
+        disableSubmit: true
     }
 
     handleChange = field => ev => {
         const {value} = ev.target
         if (!validators[field](value)) return
 
+        const disableSubmit = value.length === 0 // чтобы было
+
         this.setState({
-            [field]: value
+            [field]: value,
+            disableSubmit: disableSubmit
         })
+
+
     }
 
     handleSubmit = ev => {
         ev.preventDefault()
 
         const { addComment, articleId } = this.props
-        addComment(articleId, this.state) // ??? Это нормально, что у компонента свой стейт, не пересекающийся со store?
+        addComment(articleId, { user: this.state.user, text: this.state.text }) // ??? Это нормально, что у компонента свой стейт, не пересекающийся со store?
 
         this.setState({
             user: '',
-            text: ''
+            text: '',
+            disableSubmit: true
         })
     }
 
@@ -37,7 +44,7 @@ class NewCommentForm extends Component {
             <form onSubmit = {this.handleSubmit}>
                 comment: <input type="text" value={this.state.text} id = "text" onChange = {this.handleChange('text')}/>
                 user: <input type="text" value={this.state.user} id = "user" onChange = {this.handleChange('user')}/>
-                <input type = "submit"/>
+                <input type = "submit" disabled={this.state.disableSubmit} />
             </form>
         )
     }
