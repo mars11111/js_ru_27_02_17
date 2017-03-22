@@ -10,6 +10,7 @@ export default (state = normalizedArticles, action) => {
 
         case ADD_COMMENT:
             // ??? копировать весь state со всем вложенным, чтобы ничего не мутировать, это нормально?
+            //да, но ты таки мутируешь article
             const newArticles = state.slice()
             const newArticle = newArticles.find(a => a.id === payload.articleId);
 
