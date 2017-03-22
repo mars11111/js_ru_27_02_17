@@ -31,7 +31,7 @@ class NewCommentForm extends Component {
 
         const { addComment, articleId } = this.props
         addComment(articleId, { user: this.state.user, text: this.state.text }) // ??? Это нормально, что у компонента свой стейт, не пересекающийся со store?
-
+        //да, абсолютно
         this.setState({
             user: '',
             text: '',
