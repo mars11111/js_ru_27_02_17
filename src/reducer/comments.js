@@ -1,7 +1,6 @@
-import {normalizedComments} from '../fixtures'
 import { ADD_COMMENT } from '../constants'
 import {arrToMap} from './utils'
-import {Record} from 'immutable'
+import {Record, Map} from 'immutable'
 
 const CommentModel = Record({
     id: null,
@@ -9,7 +8,13 @@ const CommentModel = Record({
     text: ''
 })
 
-export default (comments = arrToMap(normalizedComments, CommentModel), action) => {
+const DefaultReducerState = Record({
+    entities: new Map({}),
+    // loading: false, // ??? а не убрать ли еррор и вообще отказаться от DefaultReducerState и оставить один только Мап?
+    error: null
+})
+
+export default (comments = DefaultReducerState(), action) => {
     const { type, payload, randomId } = action
 
     switch (type) {
