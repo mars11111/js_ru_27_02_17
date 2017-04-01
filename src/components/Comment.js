@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {createFindCommentSelector} from '../selectors'
 
 function Comment(props) {
+    console.log(props)
     const { text, user } = props.comment
     return (
         <div>

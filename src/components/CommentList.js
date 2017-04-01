@@ -12,9 +12,8 @@ class CommentList extends Component {
         article: PropTypes.object.isRequired
     }
 
-    componentWillReceiveProps({isOpen, article, loadCommentsByArticleId}) {
-
-        if (!this.props.isOpen && isOpen && !article.commentsLoading && !article.commentsLoaded) {
+    componentWillReceiveProps({isOpen, article, loading, loadCommentsByArticleId}) {
+        if (!this.props.isOpen && isOpen && !loading/* тут надо как-то проверить, что в глобальном справочнике комментов ещё нет комментов из статьи*/) {
             loadCommentsByArticleId(article.id)
         }
     }
@@ -42,15 +41,17 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const {article, isOpen} = this.props
+        const {article, isOpen, loading, error} = this.props
+
         if (!isOpen) return null
 
-        if (article.commentsLoading) {
+        if (loading) {
             return <div><Loader /></div>
         }
 
-        return null;
-
+        if (error) {
+            return <h1>{error}</h1>
+        }
 
         if (!article.comments || !article.comments.length) {
             return <div>
@@ -73,4 +74,11 @@ class CommentList extends Component {
     }
 }
 
-export default connect(null, { loadCommentsByArticleId })(toggleOpen(CommentList))
+const mapStateToProps = (state) => {
+    return {
+        loading: state.comments.loading,
+        error: state.articles.error
+    }
+}
+
+export default connect(mapStateToProps, { loadCommentsByArticleId })(toggleOpen(CommentList))

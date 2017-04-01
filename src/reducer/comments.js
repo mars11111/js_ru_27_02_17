@@ -1,4 +1,4 @@
-import { ADD_COMMENT } from '../constants'
+import {ADD_COMMENT, LOAD_COMMENTS_BY_ARTICLE_ID, SUCCESS, START, FAIL} from '../constants'
 import {arrToMap} from './utils'
 import {Record, Map} from 'immutable'
 
@@ -10,7 +10,7 @@ const CommentModel = Record({
 
 const DefaultReducerState = Record({
     entities: new Map({}),
-    // loading: false, // ??? а не убрать ли еррор и вообще отказаться от DefaultReducerState и оставить один только Мап?
+    loading: false, // ??? а не убрать ли еррор и вообще отказаться от DefaultReducerState и оставить один только Мап?
     error: null
 })
 
@@ -23,6 +23,18 @@ export default (comments = DefaultReducerState(), action) => {
                 id: randomId,
                 ...payload.comment
             }))
+
+        case LOAD_COMMENTS_BY_ARTICLE_ID + SUCCESS:
+            return comments
+                .mergeIn(['entities'], arrToMap(payload.response, CommentModel))
+                .set('loading', false);
+
+        case LOAD_COMMENTS_BY_ARTICLE_ID + START:
+            return comments.set('loading', true);
+
+        case LOAD_COMMENTS_BY_ARTICLE_ID + FAIL:
+            console.log('fail ', payload.error)
+            return comments.set('error', payload.error);
     }
 
     return comments
