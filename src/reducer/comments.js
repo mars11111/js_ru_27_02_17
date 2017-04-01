@@ -9,9 +9,7 @@ const CommentModel = Record({
 })
 
 const DefaultReducerState = Record({
-    entities: new Map({}),
-    loading: false, // ??? а не убрать ли еррор и вообще отказаться от DefaultReducerState и оставить один только Мап?
-    error: null
+    entities: new Map({})
 })
 
 export default (comments = DefaultReducerState(), action) => {
@@ -25,16 +23,7 @@ export default (comments = DefaultReducerState(), action) => {
             }))
 
         case LOAD_COMMENTS_BY_ARTICLE_ID + SUCCESS:
-            return comments
-                .mergeIn(['entities'], arrToMap(payload.response, CommentModel))
-                .set('loading', false);
-
-        case LOAD_COMMENTS_BY_ARTICLE_ID + START:
-            return comments.set('loading', true);
-
-        case LOAD_COMMENTS_BY_ARTICLE_ID + FAIL:
-            console.log('fail ', payload.error)
-            return comments.set('error', payload.error);
+            return comments.mergeIn(['entities'], arrToMap(payload.response, CommentModel));
     }
 
     return comments

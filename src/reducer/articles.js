@@ -8,6 +8,9 @@ const ArticleModel = Record({
     "title": null,
     "text": null,
     "loading": false,
+    "commentsLoading": false,
+    "commentsLoaded": false,
+    "commentsLoadingError": null,
     "comments": []
 })
 
@@ -45,6 +48,20 @@ export default (state = new DefaultReducerState(), action) => {
 
         case LOAD_ARTICLE_BY_ID + SUCCESS:
             return state.setIn(['entities', payload.id], new ArticleModel(payload.response))
+
+
+
+
+        case LOAD_COMMENTS_BY_ARTICLE_ID + START:
+            return state.setIn(['entities', payload.id, 'commentsLoading'], true)
+
+        case LOAD_COMMENTS_BY_ARTICLE_ID + SUCCESS:
+            return state
+                .setIn(['entities', payload.id, 'commentsLoading'], false)
+                .setIn(['entities', payload.id, 'commentsLoaded'], true)
+
+        case LOAD_COMMENTS_BY_ARTICLE_ID + FAIL:
+            return state.setIn(['entities', payload.id, 'commentsLoadingError'], payload.Error);
     }
 
     return state
