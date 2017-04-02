@@ -10,22 +10,26 @@ import CommentsPage from './CommentsPage'
 import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
 import history from '../history'
+import translation from './i18n'
 
 class App extends Component {
     static propTypes = {
     };
 
     static childContextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        lang: PropTypes.object
     }
 
     state = {
-        text: ''
+        text: '',
+        lang: translation.en
     }
 
     getChildContext() {
         return {
-            user: this.state.text
+            user: this.state.text,
+            lang: this.state.lang
         }
     }
 
@@ -37,7 +41,9 @@ class App extends Component {
         return (
             <ConnectedRouter history={history}>
                 <div>
-                    Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
+                    <a href="#" onClick={this.setLang('en')}>en</a>&nbsp;
+                    <a href="#" onClick={this.setLang('ru')}>ru</a><br />
+                    {this.state.lang.enterYourName}: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                     <Menu>
                         <MenuItem path="/counter"/>
                         <MenuItem path="/filters"/>
@@ -62,6 +68,12 @@ class App extends Component {
 
         this.setState({
             text: ev.target.value
+        })
+    }
+
+    setLang = lang => () => {
+        this.setState({
+            lang: translation[lang]
         })
     }
 }

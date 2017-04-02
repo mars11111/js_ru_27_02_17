@@ -28,16 +28,18 @@ class Article extends Component {
     }
 
     static contextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        lang: PropTypes.object
     }
 
     render() {
         const {article, isOpen, toggleOpen} = this.props
+        const {lang, user} = this.context;
         if (!article) return null
 
         const body = isOpen
             ? <section>
-                <p>User: {this.context.user}</p>
+                <p>{lang.user}: {user}</p>
                 {article.text}
                 {article.loading && <Loader />}
                 <CommentList article={article} ref={this.getCommentList}/>
@@ -46,7 +48,7 @@ class Article extends Component {
         return (
             <div>
                 <h3 onClick={toggleOpen}>{article.title}</h3>
-                <a href="#" onClick={this.handleDelete}>delete me</a>
+                <a href="#" onClick={this.handleDelete}>{lang.delete}</a>
                 <CSSTransition
                     transitionName="article"
                     transitionEnterTimeout={500}

@@ -9,7 +9,8 @@ import './style.css'
 
 class ArticleList extends Component {
     static contextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        lang: PropTypes.object
     }
 
     render() {
@@ -26,9 +27,10 @@ class ArticleList extends Component {
             <Link to={`${match.url}/${article.id}`}>{article.title}</Link>
         </li>)
 
+        const {lang, user} = this.context;
         return (
             <div>
-                <h3>User: {this.context.user}</h3>
+                <h3>{lang.user}: {user}</h3>
                 <CSSTransition component="ul"
                                transitionName="article-list"
                                transitionAppear={true}

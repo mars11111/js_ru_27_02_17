@@ -6,10 +6,14 @@ class Menu extends Component {
 
     };
 
+    static contextTypes = {
+        lang: PropTypes.object
+    }
+
     render() {
         return (
             <div>
-                <h3>Menu</h3>
+                <h3>{this.context.lang.menu}</h3>
                 {this.props.children}
             </div>
         )
